@@ -1,8 +1,10 @@
+
+import java.awt.CardLayout;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author willi
@@ -39,6 +41,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         passwordLabel = new javax.swing.JLabel();
         welcomeScreen = new javax.swing.JPanel();
         welcomeLabel = new javax.swing.JLabel();
+        logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,6 +68,12 @@ public class Gatekeeper extends javax.swing.JFrame {
         loginScreen.add(passwordField, gridBagConstraints);
 
         loginButton.setText("Login");
+        loginButton.setFocusPainted(false);
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -86,7 +95,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         loginScreen.add(passwordLabel, gridBagConstraints);
 
-        cardPanel.add(loginScreen, "card2");
+        cardPanel.add(loginScreen, "loginCard");
 
         welcomeScreen.setLayout(new java.awt.GridBagLayout());
 
@@ -94,7 +103,19 @@ public class Gatekeeper extends javax.swing.JFrame {
         welcomeLabel.setText("Welcome");
         welcomeScreen.add(welcomeLabel, new java.awt.GridBagConstraints());
 
-        cardPanel.add(welcomeScreen, "card3");
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        welcomeScreen.add(logoutButton, gridBagConstraints);
+
+        cardPanel.add(welcomeScreen, "welcomeCard");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,6 +134,16 @@ public class Gatekeeper extends javax.swing.JFrame {
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        CardLayout layout = (CardLayout) cardPanel.getLayout();
+        layout.show(cardPanel, "welcomeCard");
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        CardLayout layout = (CardLayout) cardPanel.getLayout();
+        layout.show(cardPanel, "loginCard");
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +184,7 @@ public class Gatekeeper extends javax.swing.JFrame {
     private javax.swing.JPanel cardPanel;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginScreen;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField usernameField;
