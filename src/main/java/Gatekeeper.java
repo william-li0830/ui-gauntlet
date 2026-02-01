@@ -1,5 +1,7 @@
 
 import java.awt.CardLayout;
+import java.io.FileReader;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -20,6 +22,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         setVisible(true);
+        errorLabel.setVisible(false);
     }
 
     /**
@@ -39,6 +42,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
         welcomeScreen = new javax.swing.JPanel();
         welcomeLabel = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
@@ -51,8 +55,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 0);
+        gridBagConstraints.ipadx = 20;
         loginScreen.add(usernameField, gridBagConstraints);
 
         passwordField.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +98,13 @@ public class Gatekeeper extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         loginScreen.add(passwordLabel, gridBagConstraints);
 
+        errorLabel.setForeground(new java.awt.Color(255, 51, 0));
+        errorLabel.setText("Password Incorrect");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        loginScreen.add(errorLabel, gridBagConstraints);
+
         cardPanel.add(loginScreen, "loginCard");
 
         welcomeScreen.setLayout(new java.awt.GridBagLayout());
@@ -136,14 +146,32 @@ public class Gatekeeper extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        CardLayout layout = (CardLayout) cardPanel.getLayout();
-        layout.show(cardPanel, "welcomeCard");
+        boolean passwordCorrect = isPasswordCorrect();
+
+        if (passwordCorrect) {
+            CardLayout layout = (CardLayout) cardPanel.getLayout();
+            layout.show(cardPanel, "welcomeCard");
+        } else {
+            errorLabel.setVisible(true);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         CardLayout layout = (CardLayout) cardPanel.getLayout();
         layout.show(cardPanel, "loginCard");
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private boolean isPasswordCorrect() {
+        FileRead reader = new FileRead();
+        FileDecrypter decrypter = new FileDecrypter();
+
+        String encryptedPw = reader.retrieveDataFromFile("users.txt");
+        String decryptedPw = decrypter.decodeString(encryptedPw, 17);
+
+        String userPw = String.valueOf(passwordField.getPassword());
+
+        return decryptedPw.equals(userPw);
+    }
 
     /**
      * @param args the command line arguments
@@ -182,6 +210,7 @@ public class Gatekeeper extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cardPanel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginScreen;
     private javax.swing.JButton logoutButton;
