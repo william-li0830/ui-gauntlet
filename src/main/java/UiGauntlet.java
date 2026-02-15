@@ -9,6 +9,6 @@ public class UiGauntlet {
 
     public static void main(String[] args) {
 //        new HelloEvent();
-        new Gatekeeper();
+        new TemperatureConverter();
     }
 }
