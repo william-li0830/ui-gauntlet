@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 public class UiGauntlet {
 
     public static void main(String[] args) {
-//        new HelloEvent();
-        new TemperatureConverter();
+        new ShoppingList();
     }
 }

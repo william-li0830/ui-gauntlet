@@ -1,12 +1,6 @@
 
 import java.awt.CardLayout;
-import java.io.FileReader;
-import java.util.ArrayList;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 /**
  *
  * @author willi
@@ -112,6 +106,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         welcomeScreen.add(welcomeLabel, new java.awt.GridBagConstraints());
 
         logoutButton.setText("Logout");
+        logoutButton.setFocusPainted(false);
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutButtonActionPerformed(evt);
