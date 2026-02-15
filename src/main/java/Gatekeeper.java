@@ -55,14 +55,12 @@ public class Gatekeeper extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
         loginScreen.add(usernameField, gridBagConstraints);
 
-        passwordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordFieldActionPerformed(evt);
-            }
-        });
+        passwordField.setMinimumSize(new java.awt.Dimension(100, 22));
+        passwordField.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -99,7 +97,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         loginScreen.add(passwordLabel, gridBagConstraints);
 
         errorLabel.setForeground(new java.awt.Color(255, 51, 0));
-        errorLabel.setText("Password Incorrect");
+        errorLabel.setText("error");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -122,7 +120,7 @@ public class Gatekeeper extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         welcomeScreen.add(logoutButton, gridBagConstraints);
 
         cardPanel.add(welcomeScreen, "welcomeCard");
@@ -141,22 +139,40 @@ public class Gatekeeper extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordFieldActionPerformed
-
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        boolean passwordCorrect = isPasswordCorrect();
+        boolean loginSuccess;
 
-        if (passwordCorrect) {
-            CardLayout layout = (CardLayout) cardPanel.getLayout();
-            layout.show(cardPanel, "welcomeCard");
+        boolean isUserNameEmpty = usernameField.getText().isEmpty();
+        boolean isPasswordEmpty = passwordField.getPassword().length == 0;
+
+        if (isUserNameEmpty) {
+            errorLabel.setText("Please fill in username");
+            loginSuccess = false;
+        } else if (isPasswordEmpty) {
+            errorLabel.setText("Please enter password");
+            loginSuccess = false;
+        } else if (!isPasswordCorrect()) {
+            errorLabel.setText("Incorrect password");
+            loginSuccess = false;
         } else {
-            errorLabel.setVisible(true);
+            loginSuccess = true;
         }
+
+        if (!loginSuccess) {
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        CardLayout layout = (CardLayout) cardPanel.getLayout();
+        layout.show(cardPanel, "welcomeCard");
+        welcomeLabel.setText("Welcome " + usernameField.getText());
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        errorLabel.setVisible(false);
+        usernameField.setText("");
+        passwordField.setText("");
+        
         CardLayout layout = (CardLayout) cardPanel.getLayout();
         layout.show(cardPanel, "loginCard");
     }//GEN-LAST:event_logoutButtonActionPerformed
