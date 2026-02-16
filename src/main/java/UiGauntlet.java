@@ -8,6 +8,6 @@ import javax.swing.JFrame;
 public class UiGauntlet {
 
     public static void main(String[] args) {
-        new ShoppingList();
+        new EtchASketch();
     }
 }
